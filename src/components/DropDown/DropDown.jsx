@@ -5,7 +5,7 @@ import './DropDown.css';
 const DropDown = () => {
     const { options, setOption, roles, setRoles } = useContext(Context);
     // const setInitialValue = () => {
-    //     const roleValue = "Q/A";
+    //     const roleValue = "select option";
     //     return roleValue;
     // }
     const [roleValue, setRoleValue] = useState('');
@@ -14,19 +14,24 @@ const DropDown = () => {
         setRoleValue(event.target.value)
     }
     useEffect(() => {
-        // This block will be executed when roleValue changes
-        // You can perform side effects here if needed
         console.log('Role value changed:', roleValue);
         setOneValue(roleValue)
-    }, [roleValue]); // Dependency array ensures useEffect is called when roleValue changes
-
+    }, [roleValue]);
     const handleAddOption = () => {
-        setRoles(oneValue)
+        const presence = options.filter((option) => {
+            return option.option !== oneValue;
+        })
+        setOption(presence)
+        if (roleValue !== " ") {
+            const newRole = { role: oneValue };
+            setRoles([...roles, newRole]);
+        }
     }
     return (
         <>
             <div>
                 <select onChange={handleChange} value={roleValue}>
+                    <option>select options</option>
                     {options.map((option, index) => {
                         return (
                             <option value={option.option} key={index}>{option.option}</option>
